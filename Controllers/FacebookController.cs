@@ -27,19 +27,11 @@ namespace Mastersi.Visualization.Controllers
             fbClient.AppId = AppId;
             fbClient.AppSecret = AppSecret;
 
-            var deneme = fbClient.Get("v2.11/universidaddesalamanca");
+            //var deneme = fbClient.Get("v2.11/universidaddesalamanca");
+          // var deneme = fbClient.Get()
 
 
-
-            string oauthUrl = string.Format("https://graph.facebook.com/oauth/access_token?type=client_cred&client_id={0}&client_secret={1}", "appid", "appsecret");
-
-            string accessToken = client.DownloadString(oauthUrl).Split('=')[1];
-
-            string pageInfo = client.DownloadString(string.Format("https://graph.facebook.com/wikipedia?access_token={0} ", accessToken));
-            string pagePosts = client.DownloadString(string.Format("https://graph.facebook.com/wikipedia/posts?access_token={0} ", accessToken));
-
-
-            return Json(deneme.ToString() + "ok");
+            return Json("siktir git");
 
 
         }
