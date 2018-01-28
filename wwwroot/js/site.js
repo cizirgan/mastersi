@@ -21,11 +21,11 @@ function ListPosts() {
 function GetPageData() {
     $.getJSON("/Facebook", function(json) {
             var sayfaBilgileri = JSON.parse(json);
-            $("#PageID").text(sayfaBilgileri.id);
-            $("#PageName").append(sayfaBilgileri.name);
-            $("#PageUserName").append(sayfaBilgileri.username);
-            $("#PageAbout").text(sayfaBilgileri.about);
-            $("#PageFollowers").text(sayfaBilgileri.fan_count);
+            $("#PageID").text(sayfaBilgileri.Id);
+            $("#PageName").append(sayfaBilgileri.Name);
+            $("#PageUserName").append(sayfaBilgileri.Username);
+            $("#PageAbout").text(sayfaBilgileri.About);
+            $("#PageFollowers").text(sayfaBilgileri.Fan_count);
             console.log(sayfaBilgileri);
             console.log(sayfaBilgileri.name);
 

@@ -8,10 +8,11 @@ using Mastersi.Visualization.Models;
 using Facebook;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Mastersi.Visualization.Controllers
 {
-    
+
     public class FacebookController : Controller
     {
         [HttpGet]
@@ -31,14 +32,15 @@ namespace Mastersi.Visualization.Controllers
             var fbClient = new FacebookClient(aToken);
             var fbData = fbClient.Get("/universidaddesalamanca?fields=id,about,name,fan_count,username").ToString();
 
-            //fbData = fbClient.Get("/wikipedia/posts").ToString();
-            return Json(fbData);
+            var info = JsonConvert.DeserializeObject<FacebookPageInfo>(fbData);
+
+            return Json(JsonConvert.SerializeObject(info));
         }
 
         [HttpGet]
         public IActionResult GetPosts()
         {
-           WebClient client = new WebClient();
+            WebClient client = new WebClient();
             string AppId = "395268280894053";
             string AppSecret = "b2972f3b132cf38e80fb16c4bfa3ac18";
             // get access token
@@ -52,7 +54,8 @@ namespace Mastersi.Visualization.Controllers
             var fbClient = new FacebookClient(aToken);
             var fbData = fbClient.Get("/universidaddesalamanca?fields=posts").ToString();
 
-            //fbData = fbClient.Get("/wikipedia/posts").ToString();
+            var usalPosts = fbClient.Get("/universidaddesalamanca/posts").ToString();
+            var posts = JsonConvert.DeserializeObject<FacebookPostData>(usalPosts);
             return Json(fbData);
         }
 
