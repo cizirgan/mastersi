@@ -29,16 +29,31 @@ namespace Mastersi.Visualization.Controllers
             string aToken = (string)o["access_token"];
             // get data and desedrialize it
             var fbClient = new FacebookClient(aToken);
-            var fbData = fbClient.Get("/universidaddesalamanca?fields=about,name,fan_count").ToString();
+            var fbData = fbClient.Get("/universidaddesalamanca?fields=id,about,name,fan_count,username").ToString();
 
             //fbData = fbClient.Get("/wikipedia/posts").ToString();
             return Json(fbData);
         }
 
         [HttpGet]
-        public IActionResult PageData()
+        public IActionResult GetPosts()
         {
-            return Json("ok");
+           WebClient client = new WebClient();
+            string AppId = "395268280894053";
+            string AppSecret = "b2972f3b132cf38e80fb16c4bfa3ac18";
+            // get access token
+            string oauthUrl = $"https://graph.facebook.com/oauth/access_token?type=client_cred&client_id={AppId}&client_secret={AppSecret}";
+            //string accessToken = client.DownloadString(oauthUrl).Split('=')[1];
+            string accessToken = client.DownloadString(oauthUrl);
+            JObject o = JObject.Parse(accessToken);
+
+            string aToken = (string)o["access_token"];
+            // get data and desedrialize it
+            var fbClient = new FacebookClient(aToken);
+            var fbData = fbClient.Get("/universidaddesalamanca?fields=posts").ToString();
+
+            //fbData = fbClient.Get("/wikipedia/posts").ToString();
+            return Json(fbData);
         }
 
     }
