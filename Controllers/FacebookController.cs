@@ -32,7 +32,7 @@ namespace Mastersi.Visualization.Controllers
             var fbClient = new FacebookClient(aToken);
             var fbData = fbClient.Get("/universidaddesalamanca?fields=id,about,name,fan_count,username").ToString();
 
-            var info = JsonConvert.DeserializeObject<FacebookPageInfo>(fbData);
+            var info = JsonConvert.DeserializeObject<FacebookPage>(fbData);
 
             return Json(JsonConvert.SerializeObject(info));
         }
