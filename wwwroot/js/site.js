@@ -2,13 +2,13 @@
     $("#MenuGetPageData").click(function() {
         GetPageData();
         ListPosts();
+        GetPostLikesAndComments();
     })
 });
 
 function ListPosts() {
     $.getJSON("/Facebook/GetPosts", function(json) {
             var posts = JSON.parse(json);
-            console.log(posts.posts.data);
             jQuery.each(posts.posts.data, function(i, val) {
                 document.getElementById("PostsTable").insertRow(-1).innerHTML = '<td>' + val.created_time.substring(0, 10) + '</td><td>' + val.message + '</td>';
             });
@@ -26,8 +26,7 @@ function GetPageData() {
             $("#PageUserName").append(sayfaBilgileri.Username);
             $("#PageAbout").text(sayfaBilgileri.About);
             $("#PageFollowers").text(sayfaBilgileri.Fan_count);
-            console.log(sayfaBilgileri);
-            console.log(sayfaBilgileri.name);
+            console.log(sayfaBilgileri.Name);
 
         })
         .fail(function() {
@@ -35,17 +34,56 @@ function GetPageData() {
         });
 }
 
+function GetPostLikesAndComments() {
+    $.getJSON("/Facebook/GetPostLikesAndComments", function(likesCommentsData) {
+            var likesAndComments = JSON.parse(likesCommentsData);
+            console.log(likesAndComments);
+            var likes = [];
+            var comments = [];
+            var postDates = []
+            jQuery.each(likesAndComments.data, function(i, val) {
+                likes.push(val.likes.summary.total_count)
+                comments.push(val.comments.summary.total_count)
+                postDates.push(val.created_time.substring(0, 10));
+            });
+            console.log(likes);
+            createLikesChart(likes, comments, postDates);
+        })
+        .fail(function() {
+            console.log("error");
+        });
+}
 
+function createLikesChart(likes, comments, postDates) {
+    var likeCat = likes;
+    likeCat.unshift("Likes");
+    var comCat = comments;
+    comCat.unshift("Comments");
 
+    var chart = bb.generate({
+        bindto: "#postLikes",
+        data: {
 
-
-var chart = bb.generate({
-    bindto: "#chart",
-    data: {
-        type: "bar",
-        columns: [
-            ["data1", 30, 200, 100, 170, 150, 250],
-            ["data2", 130, 100, 140, 35, 110, 50]
-        ]
-    }
-});
+            columns: [
+                postDates,
+                likeCat,
+                comCat
+            ],
+            types: {
+                Likes: "area",
+                Comments: "area-spline"
+            }
+        },
+        axis: {
+            x: {
+                type: "category",
+                categories: postDates,
+                tick: {
+                    rotate: 75,
+                    multiline: false
+                },
+                height: 130
+            }
+        }
+    });
+}
