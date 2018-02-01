@@ -15,10 +15,12 @@ namespace Mastersi.Visualization.Controllers
 
     public class FacebookController : Controller
     {
+        public string pageAddress = "/universidaddesalamanca";
+
         [HttpGet]
         public IActionResult Index()
         {
-            var stringObject = MakeRequest("/universidaddesalamanca?fields=id,about,name,fan_count,username");
+            var stringObject = MakeRequest(pageAddress + "?fields=id,about,name,fan_count,username");
             var fbPageObject = JsonConvert.DeserializeObject<FacebookPage>(stringObject);
 
             return Json(JsonConvert.SerializeObject(fbPageObject));
@@ -68,11 +70,37 @@ namespace Mastersi.Visualization.Controllers
         public IActionResult GetPostLikesAndComments()
         {
 
-            var stringObject = MakeRequest("/universidaddesalamanca/posts?fields=created_time,message,comments.summary(true),likes.summary(true)&limit=50");
+            var stringObject = MakeRequest(pageAddress + "/posts?fields=created_time,message,comments.summary(true),likes.summary(true)&limit=50");
 
             return Json(stringObject);
         }
 
+        [HttpGet]
+        public IActionResult GetDataForGoogle()
+        {
+
+            var stringObject = MakeRequest(pageAddress + "/posts?fields=created_time,message,comments.summary(true),likes.summary(true)&limit=20");
+
+            JObject jsonObject = JObject.Parse(stringObject);
+
+            JArray veriler = new JArray();
+
+            var jsonSettings = new JsonSerializerSettings();
+            jsonSettings.DateFormatString = "dd/MM/yyy hh:mm:ss";
+
+            foreach (var item in jsonObject["data"])
+            {
+                var zaman = JsonConvert.SerializeObject(item["created_time"], jsonSettings);
+                JArray tekVeri = new JArray();
+                tekVeri.Add(zaman);
+                tekVeri.Add(item["likes"]["summary"]["total_count"]);
+                tekVeri.Add(item["comments"]["summary"]["total_count"]);
+                veriler.Add(tekVeri);
+
+            }
+
+            return Json(veriler.ToString());
+        }
 
     }
 }

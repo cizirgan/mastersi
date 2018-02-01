@@ -1,22 +1,17 @@
 ﻿$(document).ready(function() {
-    $("#MenuGetPageData").click(function() {
-        GetPageData();
-        ListPosts();
-        GetPostLikesAndComments();
-    })
+    GetPageData();
+    ListPosts();
+    GetPostLikesAndComments();
+
+
+    /* $("#MenuGetPageData").click(function() {
+         GetPageData();
+         ListPosts();
+         GetPostLikesAndComments();
+     })*/
 });
 
-function ListPosts() {
-    $.getJSON("/Facebook/GetPosts", function(json) {
-            var posts = JSON.parse(json);
-            jQuery.each(posts.posts.data, function(i, val) {
-                document.getElementById("PostsTable").insertRow(-1).innerHTML = '<td>' + val.created_time.substring(0, 10) + '</td><td>' + val.message + '</td>';
-            });
-        })
-        .fail(function() {
-            console.log("error");
-        });
-}
+
 
 function GetPageData() {
     $.getJSON("/Facebook", function(json) {
@@ -36,23 +31,41 @@ function GetPageData() {
 
 function GetPostLikesAndComments() {
     $.getJSON("/Facebook/GetPostLikesAndComments", function(likesCommentsData) {
-            var likesAndComments = JSON.parse(likesCommentsData);
-            console.log(likesAndComments);
-            var likes = [];
-            var comments = [];
-            var postDates = []
-            jQuery.each(likesAndComments.data, function(i, val) {
-                likes.push(val.likes.summary.total_count)
-                comments.push(val.comments.summary.total_count)
-                postDates.push(val.created_time.substring(0, 10));
+        var likesAndComments = JSON.parse(likesCommentsData);
+        var likes = [];
+        var comments = [];
+        var postDates = [];
+        var idNumbersOfPosts = [];
+        jQuery.each(likesAndComments.data, function(i, val) {
+            likes.push(val.likes.summary.total_count)
+            comments.push(val.comments.summary.total_count)
+            postDates.push(val.created_time.substring(0, 10));
+            idNumbersOfPosts.push(val.id);
+        });
+
+        createLikesChart(likes, comments, postDates);
+        console.log("Likes");
+        console.log(likes);
+        console.log("Comments");
+        console.log(comments);
+        console.log("Dates");
+        console.log(postDates);
+
+    })
+}
+
+function ListPosts() {
+    $.getJSON("/Facebook/GetPosts", function(json) {
+            var posts = JSON.parse(json);
+            jQuery.each(posts.posts.data, function(i, val) {
+                document.getElementById("PostsTable").insertRow(-1).innerHTML = '<td>' + val.created_time.substring(0, 10) + '</td><td>' + val.message + '</td>';
             });
-            console.log(likes);
-            createLikesChart(likes, comments, postDates);
         })
         .fail(function() {
             console.log("error");
         });
 }
+
 
 function createLikesChart(likes, comments, postDates) {
     var likeCat = likes;
@@ -60,12 +73,12 @@ function createLikesChart(likes, comments, postDates) {
     var comCat = comments;
     comCat.unshift("Comments");
 
+
     var chart = bb.generate({
         bindto: "#postLikes",
         data: {
 
             columns: [
-                postDates,
                 likeCat,
                 comCat
             ],
@@ -86,4 +99,20 @@ function createLikesChart(likes, comments, postDates) {
             }
         }
     });
+
+    setTimeout(function() {
+        chart.transform('line', 'Likes');
+    }, 1000);
+
+    setTimeout(function() {
+        chart.transform('line', 'Comments');
+    }, 2000);
+
+    setTimeout(function() {
+        chart.transform('bar');
+    }, 3000);
+
+    setTimeout(function() {
+        chart.transform('line');
+    }, 4000);
 }

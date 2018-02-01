@@ -3,12 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Mastersi.Visualization</title>
+    <title>@ViewData["Title"] - MasterSI.Visualization</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="~/css/billboard.min.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css"
@@ -16,9 +15,9 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
-        <link rel="stylesheet" href="~/css/billboard.min.css" />
+    <link rel="stylesheet" href="~/css/billboard.min.css" />
     <script src="https://d3js.org/d3.v4.min.js"></script>
-
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -34,8 +33,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">MO</a></li>
-                    <li><a href="#" id="MenuGetPageData">Get Page Data</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="GraphApiTest" asp-action="Index">Tests</a></li>
                    
                 </ul>
             </div>
@@ -50,8 +49,7 @@
     </div>
 
     <environment include="Development">
-                <script src="~/lib/billboard.min.js"></script>
-
+        <script src="~/lib/billboard.min.js"></script>
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
@@ -71,8 +69,11 @@
         </script>
         <script src="~/lib/billboard.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+      
+  
     </environment>
-
+      <script src="~/js/GoogleCharts.js" asp-append-version="true"></script>
+        <script src="~/js/site.tests.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
