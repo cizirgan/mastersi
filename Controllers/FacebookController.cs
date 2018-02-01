@@ -70,7 +70,7 @@ namespace Mastersi.Visualization.Controllers
         public IActionResult GetPostLikesAndComments()
         {
 
-            var stringObject = MakeRequest(pageAddress + "/posts?fields=created_time,message,comments.summary(true),likes.summary(true)&limit=50");
+            var stringObject = MakeRequest(pageAddress + "/posts?fields=created_time,message,comments.summary(true),likes.summary(true)&limit=20");
 
             return Json(stringObject);
         }

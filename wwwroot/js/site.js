@@ -2,7 +2,7 @@
     GetPageData();
     ListPosts();
     GetPostLikesAndComments();
-
+    getDataForOnePost();
 
     /* $("#MenuGetPageData").click(function() {
          GetPageData();
@@ -44,13 +44,16 @@ function GetPostLikesAndComments() {
         });
 
         createLikesChart(likes, comments, postDates);
+        /*
         console.log("Likes");
         console.log(likes);
         console.log("Comments");
         console.log(comments);
         console.log("Dates");
         console.log(postDates);
-
+        console.log("PostIDs");
+        console.log(idNumbersOfPosts);
+*/
     })
 }
 
@@ -116,3 +119,25 @@ function createLikesChart(likes, comments, postDates) {
         chart.transform('line');
     }, 4000);
 }
+
+
+function getDataForOnePost() {
+    var postID = "159429424081052_1820695551287756";
+    var query = "?fields=shares,likes.summary(true),comments.summary(true)";
+    var allQuery = postID + query;
+    $.ajax({
+        url: '/GraphApiTest/GetDataWithParameter',
+        type: 'GET',
+        data: {
+            'parameter': allQuery
+        },
+        dataType: 'json',
+        success: function(data) {
+
+            var dataNew = JSON.parse(data);
+            console.log(dataNew.shares.count)
+            console.log(dataNew.likes.summary.total_count);
+            console.log(dataNew.comments.summary.total_count);
+        }
+    });
+};

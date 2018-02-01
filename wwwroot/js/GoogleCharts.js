@@ -1,21 +1,42 @@
 ﻿$(document).ready(function() {
 
-    GetDataGoogleMehmet();
+    getDataForOnePost();
 
 
 });
 
-function GetDataGoogleMehmet() {
+function getDataForOnePost() {
+    var postID = "159429424081052_1820695551287756";
+    var query = "?fields=shares,likes.summary(true),comments.summary(true)";
+    var allQuery = postID + query;
     $.ajax({
-        url: '/Facebook/GetDataForGoogle',
+        url: '/GraphApiTest/GetDataWithParameter',
         type: 'GET',
+        data: {
+            'parameter': allQuery
+        },
         dataType: 'json',
         success: function(data) {
 
-            grafikCiz(JSON.parse(data));
+            var dataNew = JSON.parse(data);
+            console.log(dataNew.shares.count)
+            console.log(dataNew.likes.summary.total_count);
+            console.log(dataNew.comments.summary.total_count);
+
+            var likes = ["Likes", dataNew.likes.summary.total_count];
+            var shares = ["Shares", dataNew.shares.count];
+            var comments = ["Comments", dataNew.comments.summary.total_count];
+
+            var toplam = [];
+            toplam.push(likes);
+            toplam.push(shares);
+            toplam.push(comments);
+
+            console.log(toplam);
+            grafikCiz(toplam);
         }
     });
-}
+};
 
 function grafikCiz(dataMehmet) {
     google.charts.load('current', { 'packages': ['corechart'] });
@@ -32,12 +53,11 @@ function grafikCiz(dataMehmet) {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Topping');
         data.addColumn('number', 'Slices');
-        data.addColumn('number', 'Slsices');
         data.addRows(dataMehmet);
 
         // Set chart options
         var options = {
-            'title': 'How Much Pizza I Ate Last Night',
+            'title': '159429424081052_1820695551287756',
             'width': 400,
             'height': 300
         };
