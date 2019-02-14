@@ -1,0 +1,175 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="row">
+    <div class="col-md-6">
+        <video autoplay></video>
+        <button class='btn btn-primary' id='getUserMediaButton'>Open Camera</button>
+    </div>
+    <div class="col-md-6">
+        <canvas id='takePhotoCanvas'></canvas>
+        <button class='btn btn-primary' id='takePhotoButton' disabled>Take Photo</button>
+    </div>
+
+</div>
+
+<img id="mehmet"></>
+
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Face Detect</h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">FaceID</h4>
+                        <p id="faceId" class="list-group-item-text"></p>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Face Rectangle</h4>
+                        <p id="top" class="list-group-item-text"></p>
+                        <p id="left" class="list-group-item-text"></p>
+                        <p id="width" class="list-group-item-text"></p>
+                        <p id="height" class="list-group-item-text"></p>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Face Attributes</h4>
+                        <p id="smile" class="list-group-item-text"></p>
+                        <h5>headPose:</h5>
+                        <p id="pitch" class="list-group-item-text"></p>
+                        <p id="roll" class="list-group-item-text"></p>
+                        <p id="yaw" class="list-group-item-text"></p>
+                        <p id="gender" class="list-group-item-text"></p>
+                        <p id="age" class="list-group-item-text"></p>
+                        <h5>facialHair:</h5>
+                        <p id="moustache" class="list-group-item-text"></p>
+                        <p id="beard" class="list-group-item-text"></p>
+                        <p id="sideburns" class="list-group-item-text"></p>
+
+                        <p id="glasses" class="list-group-item-text"></p>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Emotion</h4>
+                        <p id="anger" class="list-group-item-text"></p>
+                        <p id="contempt" class="list-group-item-text"></p>
+                        <p id="disgust" class="list-group-item-text"></p>
+                        <p id="fear" class="list-group-item-text"></p>
+                        <p id="happiness" class="list-group-item-text"></p>
+                        <p id="neutral" class="list-group-item-text"></p>
+                        <p id="sadness" class="list-group-item-text"></p>
+                        <p id="surprise" class="list-group-item-text"></p>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Blur</h4>
+                        <p id="blurLevel" class="list-group-item-text"></p>
+                        <p id="blurValue" class="list-group-item-text"></p>
+                    </a>
+
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Exposure</h4>
+                        <p id="exposureLevel" class="list-group-item-text"></p>
+                        <p id="exposureValue" class="list-group-item-text"></p>
+                    </a>
+
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Noise</h4>
+                        <p id="noiseLevel" class="list-group-item-text"></p>
+                        <p id="noiseValue" class="list-group-item-text"></p>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Make up</h4>
+                        <p id="eyeMakeup" class="list-group-item-text"></p>
+                        <p id="lipMakeup" class="list-group-item-text"></p>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Accessories</h4>
+                        <p id="accessories" class="list-group-item-text"></p>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Occlusion</h4>
+                        <p id="foreheadOccluded" class="list-group-item-text"></p>
+                        <p id="eyeOccluded" class="list-group-item-text"></p>
+                        <p id="mouthOccluded" class="list-group-item-text"></p>
+                    </a>
+                    <a href="#" class="list-group-item" id="hairColorBox">
+                        <h4 class="list-group-item-heading">Hair</h4>
+                        <p id="bald" class="list-group-item-text"></p>
+                        <p id="invisible" class="list-group-item-text"></p>
+                    </a>
+
+                </div>
+                <h4>JSON Data</h4>
+                <div id="faceJSON"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Emotions</h3>
+            </div>
+            <div class="panel-body">
+                <div class="list-group">
+
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Emotion Values</h4>
+                        <p id="angerE" class="list-group-item-text"></p>
+                        <p id="contemptE" class="list-group-item-text"></p>
+                        <p id="disgustE" class="list-group-item-text"></p>
+                        <p id="fearE" class="list-group-item-text"></p>
+                        <p id="happinessE" class="list-group-item-text"></p>
+                        <p id="neutralE" class="list-group-item-text"></p>
+                        <p id="sadnessE" class="list-group-item-text"></p>
+                        <p id="surpriseE" class="list-group-item-text"></p>
+                    </a>
+
+                </div>
+                <div id="emotionJSON"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<form id="mehmetForm" enctype="multipart/form-data" method="post" name="fileinfo"></form>
+
+
+<div id="loading">
+
+    <h2>We are analysing your face! Espera un momento!</h2>
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+         width="96px" height="120px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+    <rect x="0" y="0" width="4" height="10" fill="#333">
+    <animateTransform attributeType="xml"
+                      attributeName="transform" type="translate"
+                      values="0 0; 0 20; 0 0"
+                      begin="0" dur="0.6s" repeatCount="indefinite" />
+
+    </rect>
+    <rect x="10" y="0" width="4" height="10" fill="#333">
+    <animateTransform attributeType="xml"
+                      attributeName="transform" type="translate"
+                      values="0 0; 0 20; 0 0"
+                      begin="0.2s" dur="0.6s" repeatCount="indefinite" />
+
+    </rect>
+    <rect x="20" y="0" width="4" height="10" fill="#333">
+    <animateTransform attributeType="xml"
+                      attributeName="transform" type="translate"
+                      values="0 0; 0 20; 0 0"
+                      begin="0.4s" dur="0.6s" repeatCount="indefinite" />
+
+    </rect>
+  </svg>
+
+
+</div>

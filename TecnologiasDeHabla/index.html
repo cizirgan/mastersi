@@ -1,0 +1,70 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Technologia de Habla - HTML5 Voice Recogition</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container text-center">
+        <h1>Reconocimiento de Voz empotrado en páginas web con HTML5</h1>
+        <h2>Web Speech API</h2>
+
+
+
+        <div class="row">
+            <div class="col-sm-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Click the speak button and allow mic</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label" for="inputLarge">What you are saying is...</label>
+                            <textarea class="form-control" rows="5" id="interim_span"></textarea>
+                            <label class="control-label" for="inputLarge">Final text...</label>
+                            <textarea class="form-control" rows="5" id="final_span"></textarea>
+                        </div>
+
+                        <button id="start_button" onclick="startButton(event)" class="btn btn-success">Speak</button>
+
+                        <button class="btn btn-danger">Stop</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9 col-md-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Interim OFF</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h2>Simpler</h2>
+
+                        <button href="#" class="btn btn-danger" id="mehmet" onclick="startButtonSimple(event)">Start</button>
+                        <button class="btn btn-success" id="stopp" onclick="stopButtonSimple(event)">Stop</button>
+
+                        <textarea class="form-control" rows="5" id="resultBox"></textarea></div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+    <div id="alertX" class="alert alert-dismissible alert-warning text-center" style="display: none">
+        <h4>Recording...</h4>
+    </div>
+</body>
+<script src="app.js"></script>
+<script src="app-simple.js"></script>
+
+</html>

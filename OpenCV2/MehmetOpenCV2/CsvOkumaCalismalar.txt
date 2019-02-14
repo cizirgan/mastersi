@@ -1,0 +1,83 @@
+
+#include <opencv\cv.h>      
+#include <opencv\ml.h>      
+#include <stdio.h>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2\ml\ml.hpp>
+#include <iostream>
+
+using namespace cv;
+using namespace std;
+
+
+int main()
+{
+
+	CvMLData mehmetData;
+
+	const char *CSV_FILE = "RL.csv";
+	if (mehmetData.read_csv(CSV_FILE) != 0)
+	{
+		fprintf(stderr, "Can't read csv file %s\n", CSV_FILE);
+		return -1;
+	}
+
+	// Set label column
+	mehmetData.set_response_idx(3);
+
+	// Get labels
+	Mat responses = mehmetData.get_responses();
+
+	//Get responseId
+	cout << mehmetData.get_response_idx() << endl;
+
+	// Print responses
+	for (size_t i = 0; i < responses.rows; i++)
+	{
+		//printf(" \n %.2f", responses.at<float>(i, 0));
+	}
+
+
+
+	CvTrainTestSplit rate(0.75f, true);
+	mehmetData.set_train_test_split(&rate);
+
+	Mat testData = mehmetData.get_test_sample_idx();
+	cout << " \nTest Data: " << testData.cols << endl;
+
+	Mat trainData = mehmetData.get_train_sample_idx();
+	cout << "Training Data " << trainData.cols << endl;
+
+
+	cout << testData.cols << endl;
+
+
+	CvANN_MLP mlp;
+	CvANN_MLP_TrainParams params;
+	CvTermCriteria criteria;
+
+	Mat layers = Mat(3, 1, CV_32SC1);
+	layers.row(0) = Scalar(3);
+	layers.row(1) = Scalar(4);
+	layers.row(2) = Scalar(1);
+
+	criteria.max_iter = 100;
+	criteria.epsilon = 0.0000001;
+	criteria.type = CV_TERMCRIT_ITER | CV_TERMCRIT_EPS;
+	params.train_method = CvANN_MLP_TrainParams::BACKPROP;
+	params.bp_dw_scale = 0.05;
+	params.bp_moment_scale = 0.05;
+	params.term_crit = criteria;
+	mlp.create(layers);
+	
+	//mlp.train(trainData, responses, Mat(), Mat(), params);
+
+	Mat predictions;
+
+	//mlp.predict(testData, predictions);
+
+	waitKey(0);
+	return 0;
+
+}
